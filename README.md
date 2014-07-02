@@ -1,6 +1,8 @@
-VarBayes.jl
+## VarBayes.jl
 
 This package implements both expectation-maximization (EM) and variational Bayes inference on graphical models. It is designed to be as general as possible, with the ability to work with arbitrary user-specified distributions, with minimal mathematical 'busywork'. At the moment, mixture models (finite and Dirichlet process) are fully supported.
+
+## Background
 
 The problem with most implementations of EM and variational methods is that the implementations are usually rigid and only have limited customizability. If one desires a model that is only slightly different from the one that was implemented, it often requires writing the whole model from scratch, re-deriving all the equations associated with the model. This is time-consuming and it makes model experimentation difficult. An even more important problem is ensuring that the resulting model is correct. Debugging graphical models can be very time-consuming due to their stochastic nature.
 
@@ -10,7 +12,7 @@ The aim in this package is to take an entirely different approach. Instead of a 
 
 Please note, however, that this package currently serves mainly as a development testbed for a more complete version in the future. As such, as the project matures many things are likely to change, including the 'big picture' architecture of the package itself.
 
-How to Use this Library
+## How to Use this Library
 
 The interface builds on the interface developed in Distributions.jl. The general procedure for building a mixture model consists on defining two distributions: the component distribution (e.g. MvNormal) and the mixing distribution (e.g. Categorical). In the case of variational Bayes, these distributions must be wrapped together with a prior (e.g. NormalInverseWishart in the MvNormal case, and Dirichlet in the Categorical case). A small set of functions must be defined over these custom types (such as calculating the log-pdf). The functions provided in this package then do the rest; applying iterative updates to find the optimal parameters.
 
