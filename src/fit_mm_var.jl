@@ -1,5 +1,3 @@
-#require("fit_mm_em.jl")   # for infer() and logp_to_p()
-
 # Variational method for fitting bayesian mixture model
 # Note that the definition of a normal mixture model and a Bayesian
 # mixture model are identical; the difference is that the component
