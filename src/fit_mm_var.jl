@@ -1,4 +1,4 @@
-require("fit_mm_em.jl")   # for infer() and logp_to_p()
+#require("fit_mm_em.jl")   # for infer() and logp_to_p()
 
 # Variational method for fitting bayesian mixture model
 # Note that the definition of a normal mixture model and a Bayesian
@@ -28,7 +28,7 @@ function fit_mm_var!(m::MixtureModel, comppri, mixpri, x)
 		ρ[:,k] = logpdf(m.component[k], x) .+ logpdf(m.mixing, k)
 		r = logp_to_p(ρ)
 	end
-	
+
 	# Finally, update the mixing parameters
 	m.mixing = fit_mleb(mixpri, [cr], vec(sum(r,1)))
 end
