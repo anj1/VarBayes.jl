@@ -6,6 +6,14 @@ type BayesDiagNormal{P}
   pri::Vector{P}
 end
 
+# A more easier way of initializing with mean and variance vector
+# Addition params for P given in Pparams
+function BayesDiagNormal{P}(::Type{P}, mu, v, Pparams)
+	n = length(mu)
+	assert(n == length(v))
+	BayesDiagNormal([P(mu[i], v[i], Pparams...) for i in 1:n])
+end
+
 # Normal-gamma prior
 function logpdf(p::BayesDiagNormal{NormalInverseGamma}, x)
 	(dim, n) = size(x)
