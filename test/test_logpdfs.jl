@@ -1,8 +1,7 @@
 using Base.Test
 
 using Distributions
-require("normal_model.jl")
-require("logpdf_model.jl")
+using VarBayes
 
 # some random positive-definite matrix
 s = [

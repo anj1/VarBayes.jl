@@ -1,7 +1,7 @@
 # test EM on gaussian mixture
 # by Alireza Nejati
 
-require("fit_mm_em.jl")
+using VarBayes
 
 # Data: two clusters separated by a distance of 6
 x = cat(2, randn(4,64).-3, randn(4,32).+3)

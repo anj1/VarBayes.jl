@@ -1,7 +1,4 @@
-require("fit_mm_em.jl")
-require("fit_mm_var.jl")
-require("tdp.jl")
-require("normal_model.jl")
+using VarBayes
 
 # priors
 comppri = BayesNormal(NormalInverseWishart(zeros(4),0.1,eye(4),4),[])
