@@ -1,4 +1,4 @@
-# This file introduces several new types for multivariate normals 
+# This file introduces several new types for multivariate normals
 # with encapsulated priors.
 using Distributions
 
@@ -11,28 +11,28 @@ end
 
 # -------------------------------------------------------------------
 # Normal-Inverse-Wishart prior
-function logpdf(p::BayesNormal{NormalInverseWishart}, x)
+function logpdf{T}(p::BayesNormal{NormalInverseWishart}, x::DenseArray{T,2})
 	pri = p.pri
 	κ = pri.kappa
-	iwishart_logpdf(pri.mu, pri.nu, pri.Lamchol, κ/(κ+1), x) 
+	iwishart_logpdf(pri.mu, pri.nu, pri.Lamchol, κ/(κ+1), x)
 end
 
-fit_mleb(p::BayesNormal{NormalInverseWishart}, x, w) = 
+fit_mleb(p::BayesNormal{NormalInverseWishart}, x, w) =
    BayesNormal(posterior(p.pri, MvNormal, x, w), [])
 
 # -------------------------------------------------------------------
 # Inverse-Wishart prior
-function logpdf{T}(p::BayesNormal{InverseWishart}, x)
+function logpdf{T}(p::BayesNormal{InverseWishart}, x::DenseArray{T,2})
 	pri = p.pri
 	iwishart_logpdf(p.μ, pri.nu, pri.Psichol, 1.0, x)
 end
 
-fit_mleb(p::BayesNormal{InverseWishart}, x, w) = 
+fit_mleb(p::BayesNormal{InverseWishart}, x, w) =
    BayesNormal{InverseWishart}(posterior(p.pri, MvNormal, x.-p.μ, w), p.μ)
 
 # Common internals ----------------------------------------------
 
-# log-pdf of inverse-wishart, given data (x), mean (μ), 
+# log-pdf of inverse-wishart, given data (x), mean (μ),
 # wishart parameters (ν, Ψch), scale to multiply centered
 # data by (scale).
 function iwishart_logpdf(μ, ν, Ψch, scale, x::Matrix)
@@ -41,7 +41,7 @@ function iwishart_logpdf(μ, ν, Ψch, scale, x::Matrix)
 
 	ldΨ  = logdet(Ψch)
 	invΨ = inv(Ψch)
-	
+
 	l = Array(Float64,n)
 
 	y = sqrt(scale)*(x .- μ)  # center data
@@ -62,7 +62,7 @@ logdet_with_scatter(ldΨ, invΨ, x) = log(1 + (x'*invΨ*x)[1]) + ldΨ
 # ν: confidence in covariance parameter
 # ldΨ: log-det of covariance parameter
 # ldΨA: log-det of covariance parameter plus data scatter matrix
-log_iwishart_integral(ν, D, ldΨ, ldΨA) = 
+log_iwishart_integral(ν, D, ldΨ, ldΨA) =
 	lgamma(0.5*(ν+1)) -
 	lgamma(0.5*(ν+(1-D))) +
     0.5*( ν   *ldΨ -
