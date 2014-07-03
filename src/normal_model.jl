@@ -8,6 +8,8 @@ type BayesNormal{P} <: Distribution{Multivariate,Continuous}
 	pri::P
 	μ    # Mean; although it may not be used
 end
+# 'simpler' specific case
+BayesNormal(pri::NormalInverseWishart) = BayesNormal(pri, [])
 
 # -------------------------------------------------------------------
 # Normal-Inverse-Wishart prior

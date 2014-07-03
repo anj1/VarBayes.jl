@@ -1,7 +1,7 @@
 using VarBayes
 
 # priors
-comppri = BayesNormal(NormalInverseWishart(zeros(4),0.1,eye(4),4),[])
+comppri = BayesNormal(NormalInverseWishart(zeros(4),0.1,eye(4),4))
 mixpri  = BayesCategorical(Dirichlet(6,1.0))
 
 # model
