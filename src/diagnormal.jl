@@ -10,7 +10,7 @@ end
 # Addition params for P given in Pparams
 function BayesDiagNormal{P}(::Type{P}, mu, v, Pparams)
 	n = length(mu)
-	n == length(v) || throw(ArgumentError)
+	n == length(v) || throw(ArgumentError("mu and v must be of equal length."))
 	BayesDiagNormal([P(mu[i], v[i], Pparams...) for i in 1:n])
 end
 
