@@ -16,12 +16,13 @@ end
 
 # Normal-gamma prior
 function logpdf(p::BayesDiagNormal{NormalInverseGamma}, x)
-	(dim, n) = size(x)
+	n = size(x,2)
+	dim = length(p.pri)
 	lp = zeros(Float64, 1, n)
 
 	for i = 1 : dim
 		pri = p.pri[i]
-		μ, v0, α, β,   = pri.mu, pri.v0, pri.shape, pri.scale
+		μ, v0, α, β = pri.mu, pri.v0, pri.shape, pri.scale
 		ratκ = α / (v0*β)
 		lp .+= Distributions.logpdf(TDist(2α), sqrt(ratκ)*(x[i,:] .- μ)) .+ 0.5*log(ratκ)
 	end
