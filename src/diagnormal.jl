@@ -32,5 +32,5 @@ end
 
 fit_mleb(p::BayesDiagNormal{NormalInverseGamma}, x, w) =
    BayesDiagNormal(
-     [posterior(p.pri[i], Normal, x[i,:], w[i,:]) for i in length(p.pri)]
+     [posterior(p.pri[i], Normal, vec(x[i,:]), w) for i in 1:length(p.pri)]
   )
