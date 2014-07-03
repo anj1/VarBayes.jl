@@ -29,7 +29,7 @@ function logpdf(p::BayesDiagNormal{NormalInverseGamma}, x)
 end
 
 
-fit_mleb(p::BayesNormal{NormalInverseGamma}, x, w) =
-   BayesNormal(
+fit_mleb(p::BayesDiagNormal{NormalInverseGamma}, x, w) =
+   BayesDiagNormal(
      [posterior(p.pri[i], Normal, x[i,:], w[i,:]) for i in length(p.pri)]
   )
