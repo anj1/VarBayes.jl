@@ -16,7 +16,13 @@ mm = init_mm_var(comppri, mixpri, K)
 x = cat(2, randn(4,10), randn(4,10).+3)
 
 # fit model for a few iterations
-for i = 1:3
+for i = 1:10
 	fit_mm_var!(mm, comppri, mixpri, x)
 end
 
+# Display results (means of variational distributions).
+for k = 1:K
+	n = mm.mixing.pri.alpha[k]
+	mu = mm.component[k].pri.mu
+	@show k, n, mu
+end
