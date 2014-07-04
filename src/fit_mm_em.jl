@@ -14,7 +14,7 @@ end
 function infer(m::MixtureModel, x)
 	K = length(m.component)  # number of mixture components
 	N = size(x,2)            # number of data points
-	
+
 	lq = Array(Float64, N, K)
 	for k = 1:K
 		lq[:,k] = logpdf(m.component[k], x) .+ logpdf(m.mixing, k)
@@ -39,7 +39,7 @@ function fit_mm_em{T,M}(m::MixtureModel{T,M}, x)
 	comps = [fit_em(m.component[k], x, q[:,k]) for k = cr]
 	mix   =  fit_em(m.mixing, [cr], vec(sum(q,1)))
 
-	MixtureModel{T}(mix, comps)
+	MixtureModel(mix, comps)
 end
 
 # 'fallback' function
