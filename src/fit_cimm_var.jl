@@ -46,4 +46,6 @@ function fit_cimm_var!(m::MixtureModel, comppri, mixpri, x, rskip)
 	# Note that when calculating the mixing parameters, all rotations
 	# of the component are considered to be the same component.
 	m.mixing = fit_mleb(mixpri, [cr], vec(sum(s, (1, 3))))
+
+	s  # todo: make the other variational fitting algorithms return state as well
 end
