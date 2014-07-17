@@ -22,9 +22,12 @@ function infer(m::MixtureModel, x)
 	return lq
 end
 
-function logp_to_p(lp)
+# take log-probabilities, convert to probabilities and normalize.
+# dims is the set of dimensions that we normalize over.
+# TODO: make this more stable
+function logp_to_p(lp, dims)
 	r = exp(lp .- maximum(lp))
-	r ./ sum(r,2)
+	r ./ sum(r,dims)
 end
 
 function fit_mm_em{T,M}(m::MixtureModel{T,M}, x)
@@ -32,7 +35,7 @@ function fit_mm_em{T,M}(m::MixtureModel{T,M}, x)
 	lq = infer(m, x)
 
 	# Normalize log-probability and convert to probability
-	q = logp_to_p(lq)
+	q = logp_to_p(lq, 2)
 
 	# Maximization step
 	cr = 1:length(m.component)

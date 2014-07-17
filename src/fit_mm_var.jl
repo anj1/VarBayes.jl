@@ -14,7 +14,7 @@
 function fit_mm_var!(m::MixtureModel, comppri, mixpri, x)
 	# calculate probs
 	ρ = infer(m, x)
-	r = logp_to_p(ρ)
+	r = logp_to_p(ρ, 2)
 
 	# for each component
 	cr = 1:length(m.component)
@@ -24,11 +24,13 @@ function fit_mm_var!(m::MixtureModel, comppri, mixpri, x)
 
 		# update probabilities
 		ρ[:,k] = logpdf(m.component[k], x) .+ logpdf(m.mixing, k)
-		r = logp_to_p(ρ)
+		r = logp_to_p(ρ, 2)
 	end
 
 	# Finally, update the mixing parameters
 	m.mixing = fit_mleb(mixpri, [cr], vec(sum(r,1)))
+
+	ρ
 end
 
 # given component and mixing priors,
