@@ -13,7 +13,7 @@ function fit_cimm_var!(m::MixtureModel, comppri, mixpri, x, rskip)
 	y = Array(Float64, size(x,1), 0)
 	for r = 1 : R
 		shiftx = circshift(x, [rskip*(r-1), 0])
-		ρ[:,:,r] = infer(m, shiftx) 
+		ρ[:,:,r] = infer(m, shiftx)
 		y = cat(2, y, shiftx)
 	end
 
@@ -24,7 +24,7 @@ function fit_cimm_var!(m::MixtureModel, comppri, mixpri, x, rskip)
 	for k in cr
 		# Update this component
 		# todo: replace /R with something in the calculation of s
-		m.component[k] = fit_mleb(comppri, y, reshape(s[:,k,:], (size(x,2)*R,))/R)
+		m.component[k] = fit_mleb(comppri, y, reshape(s[:,k,:], (size(x,2)*R,))/(R))
 
 		# update probabilities
 		for r = 1 : R

@@ -17,7 +17,8 @@ function fit_mm_var!(m::MixtureModel, comppri, mixpri, x)
 	r = logp_to_p(ρ, 2)
 
 	# for each component
-	cr = 1:length(m.component)
+	ncomps = length(m.component)
+	cr = 1:ncomps
 	for k in cr
 		# Update this component
 		m.component[k] = fit_mleb(comppri, x, r[:,k])
